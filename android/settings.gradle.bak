@@ -1,0 +1,3 @@
+rootProject.name = 'StoresDome1'
+
+include ':app'
