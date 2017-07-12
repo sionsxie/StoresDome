@@ -10,6 +10,7 @@ import {Pages} from 'react-native-pages'
 import ButtonCommon from '../../Component/ButtonCommon'
 import {Card,Text, Button,ListItem} from 'react-native-elements'
 import ButtonOption from '../../Component/ButtonOption'
+import {PACKAGER_NAME} from '../index.android'
 
 export default class Home extends Component {
 
@@ -23,33 +24,76 @@ export default class Home extends Component {
                 {this.renderShopCol()}
                 {this.renderHot()}
                 {this.renderGuessLive()}
+                {this.renderFooter()}
 
             </ScrollView>
         );
     }
+    renderFooter(){
+        return (
+            <View style={{marginHorizontal:8,marginTop:10,marginBottom:8,backgroundColor:'white'}}>
+                <Text style={{color:'gray',textAlign:'center',marginTop:10}}>愿意让我们更了解你吗</Text>
+                <Text style={{color:'gray',textAlign:'center'}}>让电商更懂你</Text>
+                <Button raised={true} backgroundColor={'red'} borderRadius={8} buttonStyle={{marginTop:8,marginBottom:15}} title={'我的电商DNA'} onPress={()=>this.handlerSkip('modules')}/>
+                <ListItem title={'ListItem'} onPress={()=>this.handlerSkip('push')}/>
+                <ListItem title={'ListItem'} onPress={()=>this.handlerSkip('')}/>
+            </View>
+        )
+    }
+
+    handlerSkip(type){
+        //Navigation
+        switch (type){
+            case 'modules':
+                this.props.navigator.showModal({
+                    screen:this.props.PACKAGER_NAME+'HomeDetails',
+                    title:'HomeDetails_Modules',
+                    passProps:{test:'home_modules_passProps'},
+                    animationType:'none'//'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+                })
+                break;
+                case 'push':
+                this.props.navigator.push({
+                    screen:PACKAGER_NAME+'HomeDetails',
+                    passProps:{test:'home_push_passProps'},
+                    title:'HomeDetails_Push'
+                })
+                break;
+            default:
+                alert('param:'+ this.props.homeDetails)
+                break;
+
+        }
+    }
 
     renderGuessLive(){
-        let item = ()=>{
-            return (
-                <View style={{flexDirection:'row',padding:8}}>
-                    <Image source={require('../../img/hot_water.png')}/>
 
-                </View>
-            )
-        }
         return (
             <View style={{marginTop:8}}>
                 <ButtonOption leftImg={require('../../img/cnxh.png')} title={'猜你喜欢'} onPress={() => alert('猜你喜欢')}/>
-                <FlatList />
-                <View style={{flexDirection:'row',padding:8,backgroundColor:'#FFF'}}>
-                    <Image source={require('../../img/hot_water.png')} style={{borderRadius:8}}/>
-                    <View style={{flex:1}}>
-                        <View style={{flexDirection:'row', justifyContent:'space-between',paddingHorizontal:8}}>
-                            <Text>金百万烤鸭店</Text>
-                            <Text>>100</Text>
-                        </View>
-                    </View>
+                <FlatList
+                    data={[{title: 'Title Text', key: 'item1'},{title: 'Title Text', key: 'item2'},{title: 'Title Text', key: 'item3'},{title: 'Title Text', key: 'item4'}]}
+                    renderItem={this.renderItem}
+                    ItemSeparatorComponent={()=><View style={{height:0.5,backgroundColor:'#F0EFF5'}}/>}
+                />
 
+            </View>
+        )
+    }
+    renderItem = (item)=>{
+        return (
+            <View style={{flexDirection:'row',padding:8,backgroundColor:'#FFF'}}>
+                <Image source={require('../../img/hot_water.png')} style={{borderRadius:8}}/>
+                <View style={{flex:1,paddingHorizontal:8,justifyContent:'space-between'}}>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text style={{color:'black'}}>金百万烤鸭店</Text>
+                        <Text style={{color:'gray'}}>>100</Text>
+                    </View>
+                    <Text style={{color:'gray'}}>>100元代金券1张，可叠加</Text>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text style={{color:'red'}}>￥10</Text>
+                        <Text style={{color:'gray'}}>>100</Text>
+                    </View>
                 </View>
             </View>
         )

@@ -1,8 +1,13 @@
 import {Navigation} from 'react-native-navigation'
 
 import {PACKAGER_NAME, registerScreens} from './screens/index'
+//test redux
+import {Provider} from 'react-redux'
+import configureStore from './redux/createStore'
+
+const store = configureStore()
 // this is where you register all of your app's screens
-registerScreens();
+registerScreens(store,Provider)
 
 const createTabs = () => {
     let tabs = [
@@ -135,6 +140,6 @@ Navigation.startTabBasedApp({
         tabBarSelectedButtonColor: '#EB6814',//可选，//可选，更改标签栏的背景颜色
         tabBarBackgroundColor: '#F8F8F8',//可选，更改标签栏的背景颜色 底部导航颜色
     },
-    passProps: {},//简单的可序列化对象，将作为道具传递到所有顶层屏幕（可选）
+    passProps: {PACKAGER_NAME},//简单的可序列化对象，将作为道具传递到所有顶层屏幕（可选）
     animationType: 'fade' // optional, add transition animation to root change: 'none', 'slide-down', 'fade'
 });
